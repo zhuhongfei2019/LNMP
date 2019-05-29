@@ -1,0 +1,16 @@
+#!/bin/bash
+#Figo制造，程序开始前，请将包(如nginx-1.12.2.tar.gz;或nginx-1.15.8.tar.gz)发送至此路径   /root/
+#该脚本用于升级nginx版本,装机开始,请输入要升级的版本号及目录号(例如包nginx-1.12.2.tar.gz目录号就写nginx-1.12.2好了)
+read -p "请输入版本号(如nginx-1.12.2.tar.gz;nginx-1.15.8.tar.gz)" u
+read -p "版本目录(如nginx-1.12.2;nginx-1.15.8)" i
+cd /root/lnmp_soft
+tar  -zxvf  $u
+cd $i
+./configure --prefix=/usr/local/nginx --user=nginx --group=nginx --with-http_ssl_module
+make
+mv /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginxold
+cp objs/nginx  /usr/local/nginx/sbin/
+killall nginx  
+nginx
+echo "当前nginx版本及安装信息如下:"
+nginx -V
